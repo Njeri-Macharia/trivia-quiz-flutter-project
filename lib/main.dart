@@ -11,7 +11,7 @@ import 'package:get_storage/get_storage.dart';
 Future<void> main() async {
   await GetStorage.init;
   runApp(GetMaterialApp(
-    initialRoute: "/",
+    initialRoute: "/login",
     getPages: Routes.routes,
     debugShowCheckedModeBanner: false,
     // home: MyApp(),

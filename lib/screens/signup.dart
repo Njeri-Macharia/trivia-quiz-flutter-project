@@ -143,10 +143,36 @@ class _SignUpState extends State<SignUp> {
       var serverResponse = json.decode(response.body);
       int signedUp = serverResponse['success'];
       if (signedUp == 1) {
-        Get.offAndToNamed("/login");
-        print("account created");
+        
+         showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('SignUp'),
+            content: Text("SignUp successful!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    Get.offAndToNamed("/login");
+                  });
+                },
+                child: Text('Save'),
+              ),
+            ],
+          );
+        },
+      );
+      
       } else {
-        print("Account not created");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red, // Set red color for error indication
+            content: Text('SignUp Error: Must fill all details'),
+            duration: Duration(seconds: 4), // Adjust duration as needed
+          ),
+        );
+        
       }
     }
   }

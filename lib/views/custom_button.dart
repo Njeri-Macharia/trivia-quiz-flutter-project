@@ -1,5 +1,5 @@
 import 'package:finalproject/constants/constant.dart';
-import 'customtext.dart';
+// import 'customtext.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -26,13 +26,9 @@ class CustomButton extends StatelessWidget {
       onPressed: action,
       style: ElevatedButton.styleFrom(
           backgroundColor: backgroundcolor,
-          //foregroundColor: forecolor,
           shadowColor: whitecolor,
           minimumSize: size),
-      child: CustomText(
-        text: label,
-        textcolor: forecolor,
-      ),
+      child: Text(label)
     );
   }
 }

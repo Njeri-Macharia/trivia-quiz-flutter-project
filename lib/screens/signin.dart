@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:finalproject/constants/constant.dart';
 // import 'package:finalproject/controllers/logincotroller.dart';
-import 'package:finalproject/utils/preferences.dart';
+// import 'package:finalproject/utils/preferences.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../views/custom_button.dart';
@@ -14,9 +14,7 @@ import 'package:get/get.dart';
 // import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-Preferences mypref = Preferences();
-// var store = GetStorage();
-// Logincontroller logincontroller = Get.put(Logincontroller());
+// Preferences mypref = Preferences();
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -29,7 +27,7 @@ class _LoginState extends State<Login> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   bool _passwordVisible = false;
- final storage = GetStorage();
+  final storage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,19 +116,25 @@ class _LoginState extends State<Login> {
       var serverResponse = json.decode(response.body);
       var loginServer = serverResponse['success'];
       if (loginServer == 1) {
-        await mypref.setvalue("user_email", email.text);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Successful'),
-            duration: Duration(seconds: 2),
-            // Adjust duration as needed
-          ),
-        );
-        await Future.delayed(const Duration(seconds: 2));
-        
-        setState(() {
-          Get.offAndToNamed("/dashboard");
-        });
+        // await mypref.setvalue("user_email", email.text);
+        if (email.text == "" && password.text == "") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.red, // Set red color for error indication
+            content: Text('Login Error: Must enter details'),
+            duration: Duration(seconds: 4),
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login Successful'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+          setState(() {
+            const Duration(seconds: 2);
+            Get.toNamed("/dashboard");
+          });
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -141,15 +145,9 @@ class _LoginState extends State<Login> {
         );
       }
     } else {
-      print("error ${response.statusCode}");
+      throw "error ${response.statusCode}";
     }
   }
-
-  // void login() async {
-  //   await mypref.setvalue("username", email.text);
-
-  //   Get.toNamed("/dashboard");
-  // }
 
   void signup() {
     Get.offAndToNamed("/signup");
